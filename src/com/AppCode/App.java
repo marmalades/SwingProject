@@ -30,17 +30,21 @@ public class App
                 juniorRadioButton.setActionCommand(juniorRadioButton.getText());
                 seniorRadioButton.setActionCommand(seniorRadioButton.getText());
 
+                //get classification from text
+                //maybe hardcode it in? - - -
+                String classification = "empty";
                 String freshman = freshmanRadioButton.getText();
                 String sophomore = sophomoreRadioButton.getText();
                 String junior = juniorRadioButton.getText();
                 String senior = seniorRadioButton.getText();
 
 
-
+                //grab first and last name
                 String first = firstName.getText();
                 String last = lastName.getText();
-                String classification = "empty";
 
+
+                //radio button selection
                 if (freshmanRadioButton.isSelected())
                 {
                     classification = freshman;
@@ -59,17 +63,23 @@ public class App
                 }
                 else
                 {
+                    //request user to select a classification.
                     JOptionPane.showMessageDialog(null, "Please select a classification!");
                 }
 
-                JOptionPane.showMessageDialog(null, "Name: " + first + " " + last +
-                                                                          "\nClassification: " + classification);
 
+                if (classification != "empty")
+                {
+                    JOptionPane.showMessageDialog(null, "Name: " + first + " " + last +
+                            "\nClassification: " + classification);
+                }
 
             }
         });
     }
 
+
+    //JFrame stuffs
     public static void main(String[] args)
     {
      JFrame frame = new JFrame("Student Registration");
