@@ -24,6 +24,10 @@ public class App
             public void actionPerformed(ActionEvent e)
             {
 
+                //TODO: add first and last verifier
+                //TODO: clean GUI
+                //TODO: add courses functionality
+
                 //get classification from text
                 //can be constants. decide if not
                 String classification = "empty";
@@ -64,8 +68,10 @@ public class App
                     dialog.setVisible(true);
                 }
 
+                //if classification is not empty
                 if (classification != "empty")
                 {
+                    //Info output pane
                     JOptionPane.showMessageDialog(null, "Name: " + first + " " + last +
                             "\nClassification: " + classification);
                 }
