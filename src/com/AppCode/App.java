@@ -1,4 +1,4 @@
-package com.codebind;
+package com.AppCode;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
