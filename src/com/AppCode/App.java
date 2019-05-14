@@ -24,14 +24,8 @@ public class App
             public void actionPerformed(ActionEvent e)
             {
 
-
-                freshmanRadioButton.setActionCommand(freshmanRadioButton.getText());
-                sophomoreRadioButton.setActionCommand(sophomoreRadioButton.getText());
-                juniorRadioButton.setActionCommand(juniorRadioButton.getText());
-                seniorRadioButton.setActionCommand(seniorRadioButton.getText());
-
                 //get classification from text
-                //maybe hardcode it in? - - -
+                //can be constants. decide if not
                 String classification = "empty";
                 String freshman = freshmanRadioButton.getText();
                 String sophomore = sophomoreRadioButton.getText();
@@ -64,9 +58,11 @@ public class App
                 else
                 {
                     //request user to select a classification.
-                    JOptionPane.showMessageDialog(null, "Please select a classification!");
+                    JOptionPane optionPane = new JOptionPane("Please select a classification!", JOptionPane.ERROR_MESSAGE);
+                    JDialog dialog = optionPane.createDialog("Failure");
+                    dialog.setAlwaysOnTop(true);
+                    dialog.setVisible(true);
                 }
-
 
                 if (classification != "empty")
                 {
