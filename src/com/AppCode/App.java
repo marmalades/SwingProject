@@ -4,7 +4,6 @@ import java.sql.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.Driver;
 
 public class App
 {
@@ -45,7 +44,6 @@ public class App
                     classification = "Senior";
                 }
 
-
                 //if first/last name are empty
                 //if classification is unselected
                 if (firstName.getText().trim().length() == 0 || lastName.getText().trim().length() == 0 || classification == "empty")
@@ -59,12 +57,6 @@ public class App
                     displayOutput(first, last);
                 }
 
-
-
-
-
-
-
             }//action performed ^^
 
         });//action listener
@@ -72,12 +64,9 @@ public class App
     }//app
 
 
-
-
-
-    //JFrame stuffs
     public static void main(String[] args)
     {
+        //JFrame stuff
         JFrame frame = new JFrame("Student Registration");
         frame.setContentPane(new App().panelMain);
         frame.setLocationRelativeTo(null);
@@ -85,21 +74,35 @@ public class App
         frame.pack();
         frame.setVisible(true);
 
-
-        String host = "jdbc:mysql://localhost:3306/world";
+        //mySQL connection info
+        String host = "jdbc:mysql://localhost:3306/students";
         String user = "root";
         String pass = "torres";
 
+
+        //SQL
         try {
             Connection connection = DriverManager.getConnection(host, user, pass);
+            Statement stmt = connection.createStatement();
+            String sql = "SELECT * FROM USERS";
+            ResultSet rs = stmt.executeQuery(sql);
+
+            while (rs.next())
+            {
+                int ID_col = rs.getInt("StudentID");
+                String first_name = rs.getString("First_Name");
+                String last_name = rs.getString("Last_Name");
+                String major = rs.getString("Major");
+
+                String print = ID_col + " " + first_name + " " + last_name + " " + major;
+                System.out.println(print);
+            }
+
         } catch (SQLException error) {
             error.printStackTrace();
             System.out.println(error.getMessage());
         }
-
-
     }
-
 
     public void displayError()
     {
