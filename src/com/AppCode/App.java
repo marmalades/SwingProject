@@ -1,12 +1,13 @@
 package com.AppCode;
 
-
+import java.sql.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.SQLException;
+import java.sql.Driver;
 
-public class App {
+public class App
+{
     private JButton buttonMsg;
     private JPanel panelMain;
     private JTextField lastName;
@@ -19,21 +20,21 @@ public class App {
 
     public App()
     {
-        buttonMsg.addActionListener(new ActionListener() {
+        buttonMsg.addActionListener(new ActionListener()
+        {
             @Override
             public void actionPerformed(ActionEvent e)
             {
 
                 //TODO: clean GUI
                 //TODO: add courses functionality
-                //get classification from text
-                //can be constants. decide if not
 
                 //grab first and last name
                 String first = firstName.getText();
                 String last = lastName.getText();
 
 
+                //Radio button group selection
                 if (freshmanRadioButton.isSelected()) {
                     classification = "Freshman";
                 } else if (sophomoreRadioButton.isSelected()) {
@@ -46,7 +47,7 @@ public class App {
 
 
                 //if first/last name are empty
-                //if classification is empty
+                //if classification is unselected
                 if (firstName.getText().trim().length() == 0 || lastName.getText().trim().length() == 0 || classification == "empty")
                 {
                     //then display error
@@ -57,9 +58,21 @@ public class App {
                     //display output
                     displayOutput(first, last);
                 }
-            }
-        });
-    }
+
+
+
+
+
+
+
+            }//action performed ^^
+
+        });//action listener
+
+    }//app
+
+
+
 
 
     //JFrame stuffs
@@ -71,6 +84,19 @@ public class App {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
+
+
+        String host = "jdbc:mysql://localhost:3306/world";
+        String user = "root";
+        String pass = "torres";
+
+        try {
+            Connection connection = DriverManager.getConnection(host, user, pass);
+        } catch (SQLException error) {
+            error.printStackTrace();
+            System.out.println(error.getMessage());
+        }
+
 
     }
 
