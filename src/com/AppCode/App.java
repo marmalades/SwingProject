@@ -1,11 +1,12 @@
 package com.AppCode;
 
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
-public class App
-{
+public class App {
     private JButton buttonMsg;
     private JPanel panelMain;
     private JTextField lastName;
@@ -14,68 +15,48 @@ public class App
     private JRadioButton freshmanRadioButton;
     private JRadioButton juniorRadioButton;
     private JRadioButton seniorRadioButton;
-
+    private String classification = "empty";
 
     public App()
     {
-        buttonMsg.addActionListener(new ActionListener()
-        {
+        buttonMsg.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e)
             {
 
-                //TODO: add first and last verifier
                 //TODO: clean GUI
                 //TODO: add courses functionality
-
                 //get classification from text
                 //can be constants. decide if not
-                String classification = "empty";
-                String freshman = freshmanRadioButton.getText();
-                String sophomore = sophomoreRadioButton.getText();
-                String junior = juniorRadioButton.getText();
-                String senior = seniorRadioButton.getText();
-
 
                 //grab first and last name
                 String first = firstName.getText();
                 String last = lastName.getText();
 
 
-                //radio button selection
-                if (freshmanRadioButton.isSelected())
-                {
-                    classification = freshman;
+                if (freshmanRadioButton.isSelected()) {
+                    classification = "Freshman";
+                } else if (sophomoreRadioButton.isSelected()) {
+                    classification = "Sophomore";
+                } else if (juniorRadioButton.isSelected()) {
+                    classification = "Junior";
+                } else if (seniorRadioButton.isSelected()) {
+                    classification = "Senior";
                 }
-                else if (sophomoreRadioButton.isSelected())
+
+
+                //if first/last name are empty
+                //if classification is empty
+                if (firstName.getText().trim().length() == 0 || lastName.getText().trim().length() == 0 || classification == "empty")
                 {
-                    classification = sophomore;
-                }
-                else if (juniorRadioButton.isSelected())
-                {
-                    classification = junior;
-                }
-                else if (seniorRadioButton.isSelected())
-                {
-                    classification = senior;
+                    //then display error
+                    displayError();
                 }
                 else
                 {
-                    //request user to select a classification.
-                    JOptionPane optionPane = new JOptionPane("Please select a classification!", JOptionPane.ERROR_MESSAGE);
-                    JDialog dialog = optionPane.createDialog("Failure");
-                    dialog.setAlwaysOnTop(true);
-                    dialog.setVisible(true);
+                    //display output
+                    displayOutput(first, last);
                 }
-
-                //if classification is not empty
-                if (classification != "empty")
-                {
-                    //Info output pane
-                    JOptionPane.showMessageDialog(null, "Name: " + first + " " + last +
-                            "\nClassification: " + classification);
-                }
-
             }
         });
     }
@@ -84,13 +65,30 @@ public class App
     //JFrame stuffs
     public static void main(String[] args)
     {
-     JFrame frame = new JFrame("Student Registration");
-     frame.setContentPane(new App().panelMain);
-     frame.setLocationRelativeTo(null);
-     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-     frame.pack();
-     frame.setVisible(true);
+        JFrame frame = new JFrame("Student Registration");
+        frame.setContentPane(new App().panelMain);
+        frame.setLocationRelativeTo(null);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+
     }
 
 
+    public void displayError()
+    {
+        //request user to select a classification.
+        JOptionPane optionPane = new JOptionPane("Please enter name and classification!", JOptionPane.ERROR_MESSAGE);
+        JDialog dialog = optionPane.createDialog("Failure");
+        dialog.setAlwaysOnTop(true);
+        dialog.setVisible(true);
+    }
+
+    public void displayOutput(String first, String last)
+    {
+        JOptionPane.showMessageDialog(null, "Name: " + first + " " + last +
+                "\nClassification: " + classification);
+    }
 }
+
+
