@@ -35,9 +35,7 @@
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">
-    <open-files>
-      <object connection-id="34e458a3-0ba3-4f95-b400-e71d8dd006a6" object-ref="schemas/students/tables/users" />
-    </open-files>
+    <open-files />
   </component>
   <component name="DBNavigator.Project.DatabaseSessionManager">
     <connection id="34e458a3-0ba3-4f95-b400-e71d8dd006a6" />
@@ -46,7 +44,9 @@
     <filter-actions connection-id="34e458a3-0ba3-4f95-b400-e71d8dd006a6" dataset="students.users" active-filter-id="EMPTY_FILTER" />
   </component>
   <component name="DBNavigator.Project.EditorStateManager">
-    <last-used-providers />
+    <last-used-providers>
+      <object-type object-type="TABLE" editor-provider="DATA" />
+    </last-used-providers>
   </component>
   <component name="DBNavigator.Project.MethodExecutionManager">
     <method-browser />

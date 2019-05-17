@@ -1,12 +1,12 @@
 package com.AppCode;
 
+
 import java.sql.*;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class App
-{
+public class App {
     //panel
     private JButton buttonMsg;
     private JPanel panelMain;
@@ -32,13 +32,23 @@ public class App
             public void actionPerformed(ActionEvent actionEvent)
             {
 
+
+                //mySQL connection info
+                String host = "jdbc:mysql://localhost:3306/students";
+                String user = "root";
+                String pass = "torres";
+
+
                 //TODO: clean GUI
                 //TODO: add courses functionality
+
+                //grab ID
 
                 //grab text from inputs
                 String first = firstNameTextField.getText();
                 String last = lastNameTextField.getText();
                 String major = majorTextField.getText();
+
 
                 //Radio button group selection
                 if (freshmanRadioButton.isSelected()) {
@@ -51,44 +61,41 @@ public class App
                     classification = "Senior";
                 }
 
+                //get student ID
+                studentID = generateID(host, user, pass);
+
 
                 //if first/last name are empty
                 //if classification is unselected
-                if (firstNameTextField.getText().trim().length() == 0 || lastNameTextField.getText().trim().length() == 0 || classification == "empty")
-                {
+                if (firstNameTextField.getText().trim().length() == 0 || lastNameTextField.getText().trim().length() == 0 || classification == "empty") {
                     //then display error
                     displayError();
-                } else
-                    {
-                        //display output
-                        displayOutput(first, last);
-                        getSQLStatement(firstNameTextField.getText(), lastNameTextField.getText(), classification, major);
-                    }
+                } else {
+                    //display output
+                    displayOutput(first, last);
+                    //getSQLStatement(firstNameTextField.getText(), lastNameTextField.getText(), classification, major);
+                }
 
-
-                //mySQL connection info
-                String host = "jdbc:mysql://localhost:3306/students";
-                String user = "root";
-                String pass = "torres";
 
                 //SQL
                 try {
                     Connection connection = DriverManager.getConnection(host, user, pass);
                     System.out.println("Connected!");
-                    Statement stmt = connection.createStatement();
+                    Statement statement = connection.createStatement();
 
-                    String query = " insert into users (StudentID, First_Name, Last_Name, Major, Classification)"
+                    String query = " insert into users (studentID, firstName, lastName, Major, Classification)"
                             + " values (?, ?, ?, ?, ?)";
 
-                    //create preparedStatement
+                    String rowCountQuery = "SELECT COUNT(*) FROM users";
+
                     PreparedStatement preparedStatement = connection.prepareStatement(query);
-                    preparedStatement.setInt(1, s);
+                    preparedStatement.setInt(1, studentID);
                     preparedStatement.setString(2, first);
                     preparedStatement.setString(3, last);
                     preparedStatement.setString(4, major);
                     preparedStatement.setString(5, classification);
 
-                    //  ResultSet rs = stmt.executeQuery(query);
+
                     try {
                         preparedStatement.execute();
                     } catch (SQLException e) {
@@ -99,16 +106,6 @@ public class App
                     } catch (SQLException e) {
                         e.printStackTrace();
                     }
-//            while (rs.next())
-//            {
-//                int ID_col = rs.getInt("StudentID");
-//                String first_name = rs.getString("First_Name");
-//                String last_name = rs.getString("Last_Name");
-//                String major = rs.getString("Major");
-//                String classification = rs.getString("Classification");
-//
-//                String print = ID_col + " " + first_name + " " + last_name + " " + major;
-//                System.out.println(print);
 
                 } catch (SQLException error) {
                     error.printStackTrace();
@@ -145,38 +142,63 @@ public class App
         dialog.setVisible(true);
     }
 
-        public void displayOutput (String first, String last)
-        {
-            JOptionPane.showMessageDialog(null, "Name: " + first + " " + last +
-                    "\nClassification: " + classification);
+    public void displayOutput(String first, String last)
+    {
+        JOptionPane.showMessageDialog(null, "Name: " + first + " " + last +
+                "\nClassification: " + classification);
+    }
+
+    //not how actual ID's could be generated. since everyone starts off as a freshman
+    //TODO: redo logic
+    public int generateID(String host, String user, String pass)
+    {
+
+        int rowNumber = 0;
+
+        Connection connection = null;
+        try {
+            connection = DriverManager.getConnection(host, user, pass);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        System.out.println("Getting rows!");
+        try {
+            Statement statement = connection.createStatement();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
-        public int generateID(String classification, JTextField lastNameTextField)
-        {
-            int suffix = Integer.parseInt(lastNameTextField.getText());
-            if (classification == "freshman")
-            {
-                return 1 + suffix;
-            }
-            else if (classification == "sophomore")
-            {
-                return 2 + suffix;
-            }
-            else if (classification == "junior")
-            {
-                return 3 + suffix;
-            }
-            else if(classification == "senior")
-            {
-                return 4 + suffix;
-            }
-            return 999;
+
+        String rowQuery = "select count(*) from users";
+        PreparedStatement rowStatement = null;
+        try {
+            rowStatement = connection.prepareStatement(rowQuery);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
+        ResultSet resultSet = null;
+        try {
+            resultSet = rowStatement.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        while (true) {
+            try {
+                if (!resultSet.next()) break;
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            try {
+                rowNumber = resultSet.getInt("studentID");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return rowNumber;
+
+    }
 
 
-//        public String getSQLStatement (String first, String last, String major, String classification)//,String classification)
-//        {
-//            return "INSERT INTO students.users (studentID, First_Name, Last_Name, Major, Classification) VALUES (" +
-//           a         first + "," + last + "," + major + classification + ");";
-//        }
+//
 }
