@@ -5,11 +5,11 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-
+//TODO: Starting CardLayout transition
 
 public class App {
     //panel
-    private JButton buttonMsg;
+    private JButton EnrollButton;
     private JPanel panelMain;
 
     //user info
@@ -28,7 +28,7 @@ public class App {
 
     public App()
     {
-        buttonMsg.addActionListener(new ActionListener()
+        EnrollButton.addActionListener(new ActionListener()
         {
             @Override
             public void actionPerformed(ActionEvent actionEvent)
